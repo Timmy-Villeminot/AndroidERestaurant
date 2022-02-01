@@ -1,5 +1,6 @@
 package fr.isen.VILLEMINOT.androiderestaurant
 
+import android.app.DownloadManager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,8 +8,13 @@ import android.util.Log
 import android.widget.SimpleAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import fr.isen.VILLEMINOT.androiderestaurant.HomeActivity.Companion.CategoryType
 import fr.isen.VILLEMINOT.androiderestaurant.databinding.ActivityCategoryActvityBinding
+import fr.isen.VILLEMINOT.androiderestaurant.network.NetworkConstants
+import org.json.JSONObject
 
 enum class LunchType {
     STARTER, MEAL, DESSERT;
@@ -38,9 +44,31 @@ class CategoryActivity : AppCompatActivity() {
 
         currentCategory = intent.getSerializableExtra(HomeActivity.CategoryType) as? LunchType ?: LunchType.STARTER
         setupTitle()
-
         setupList()
+        makeRequest()
+
         Log.d("life cycle", "CategoryActivity onCreate")
+    }
+
+    private fun makeRequest(){
+        val queue = Volley.newRequestQueue(this)
+        val url = NetworkConstants.BASE_URL+NetworkConstants.MENU
+        val parameters = JSONObject() //dico de type JSON donc put les élé
+        parameters.put(NetworkConstants.KEY_SHOP, NetworkConstants.SHOP)
+        val request = JsonObjectRequest(
+            Request.Method.POST,
+            url,
+            parameters,
+            {
+                //retour si bien passé
+                Log.d("volley","${it.toString(2)}")
+            },
+            {
+                //retour si erreur
+                Log.d("Volley error","$it")
+
+            })
+        queue.add(request)
     }
 
     private fun setupTitle() {
