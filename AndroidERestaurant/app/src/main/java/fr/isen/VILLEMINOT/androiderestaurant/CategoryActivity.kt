@@ -1,18 +1,19 @@
 package fr.isen.VILLEMINOT.androiderestaurant
 
-import android.app.DownloadManager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.SimpleAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.google.gson.GsonBuilder
+import fr.isen.VILLEMINOT.androiderestaurant.Detail.DetailActivity
 import fr.isen.VILLEMINOT.androiderestaurant.HomeActivity.Companion.CategoryType
 import fr.isen.VILLEMINOT.androiderestaurant.databinding.ActivityCategoryActvityBinding
+import fr.isen.VILLEMINOT.androiderestaurant.network.Meals
+import fr.isen.VILLEMINOT.androiderestaurant.network.MenuResult
 import fr.isen.VILLEMINOT.androiderestaurant.network.NetworkConstants
 import org.json.JSONObject
 
@@ -27,6 +28,15 @@ enum class LunchType {
                 DESSERT -> R.string.desserts
             }
         }
+
+        fun getCategoryTitle(type: LunchType): String{
+            //filtrer catégories
+            return when(type) {
+                STARTER -> "Entrées"
+                MEAL -> "Plats"
+                DESSERT -> "Desserts"
+            }
+        }
     }
 }
 
@@ -35,24 +45,24 @@ class CategoryActivity : AppCompatActivity() {
     lateinit var binding: ActivityCategoryActvityBinding
     lateinit var currentCategory: LunchType
 
-    val fakeItems = listOf("item1", "item2", "item3", "item4")
+    //val fakeItems = listOf("item1", "item2", "item3", "item4")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCategoryActvityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        currentCategory = intent.getSerializableExtra(HomeActivity.CategoryType) as? LunchType ?: LunchType.STARTER
+        currentCategory = intent.getSerializableExtra(CategoryType) as? LunchType
+            ?: LunchType.STARTER
         setupTitle()
-        setupList()
         makeRequest()
 
         Log.d("life cycle", "CategoryActivity onCreate")
     }
 
-    private fun makeRequest(){
+    private fun makeRequest() {
         val queue = Volley.newRequestQueue(this)
-        val url = NetworkConstants.BASE_URL+NetworkConstants.MENU
+        val url = NetworkConstants.BASE_URL + NetworkConstants.MENU
         val parameters = JSONObject() //dico de type JSON donc put les élé
         parameters.put(NetworkConstants.KEY_SHOP, NetworkConstants.SHOP)
         val request = JsonObjectRequest(
@@ -61,24 +71,38 @@ class CategoryActivity : AppCompatActivity() {
             parameters,
             {
                 //retour si bien passé
-                Log.d("volley","${it.toString(2)}")
+                parseResult(it.toString())
             },
             {
                 //retour si erreur
-                Log.d("Volley error","$it")
+                Log.d("Volley error", "$it")
 
             })
         queue.add(request)
+    }
+
+    private fun parseResult(response: String) {
+        val result = GsonBuilder().create().fromJson(response, MenuResult::class.java)
+        val items = result.data.firstOrNull {
+            it.name == LunchType.getCategoryTitle(currentCategory)
+        }?.items
+
+        /*if (items != null) {
+            setupList(items)
+        }*/
+        items?.let {
+            setupList(it)
+        }
     }
 
     private fun setupTitle() {
         binding.title.text = getString(LunchType.getResString(currentCategory))
     }
 
-    private fun setupList(){
+    private fun setupList(items: List<Meals>) {
 
         binding.itemRecycleView.layoutManager = LinearLayoutManager(this)
-        val adapter = ItemAdapter(fakeItems){
+        val adapter = ItemAdapter(items) {
 
             showDetail(it)
         }
@@ -87,14 +111,14 @@ class CategoryActivity : AppCompatActivity() {
 
     }
 
-    private fun showDetail(item: String){
+    private fun showDetail(item: Meals) {
         val intent = Intent(this, DetailActivity::class.java)
-        intent.putExtra(CategoryActivity.SELECTED_ITEM, item)
+        intent.putExtra(SELECTED_ITEM, item)
         startActivity(intent)
     }
 
     companion object {
-        const val  SELECTED_ITEM ="SELECTED_ITEM"
+        const val SELECTED_ITEM = "SELECTED_ITEM"
     }
 
     override fun onDestroy() {
@@ -122,6 +146,4 @@ class CategoryActivity : AppCompatActivity() {
         Log.d("life cycle", "CategoryActivity onStop")
         super.onStop()
     }
-
-
 }
