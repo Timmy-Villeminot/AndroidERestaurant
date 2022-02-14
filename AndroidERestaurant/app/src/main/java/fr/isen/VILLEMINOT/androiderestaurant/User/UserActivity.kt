@@ -98,7 +98,7 @@ class UserActivity : AppCompatActivity(), UserActivityFragmentInteration {
                 if (userResult.data !=null) {
                     saveUser(userResult.data)
                 }else{
-
+                    Toast.makeText(this, "mauvais login", Toast.LENGTH_LONG).show()
                 }
             },
             {
