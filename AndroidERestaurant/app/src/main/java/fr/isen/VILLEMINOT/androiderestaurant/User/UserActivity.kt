@@ -95,14 +95,18 @@ class UserActivity : AppCompatActivity(), UserActivityFragmentInteration {
             parameters,
             {
                 val userResult = GsonBuilder().create().fromJson(it.toString(), UserResult::class.java)
-                saveUser(userResult.data)
+                if (userResult.data !=null) {
+                    saveUser(userResult.data)
+                }else{
+
+                }
             },
             {
                 Log.d("request", it.message ?: "Une erreur est survenue")
             }
 
         )
-        queue.add(request)
+        queue.add((request))
     }
 
 

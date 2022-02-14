@@ -8,8 +8,8 @@ class NetworkConstants {
         const val LOGIN = "user/login"
 
         const val KEY_SHOP = "id_shop"
-        const val KEY_FIRSTNAME= "firstName"
-        const val KEY_LASTNAME = "lastName"
+        const val KEY_FIRSTNAME= "firstname"
+        const val KEY_LASTNAME = "lastname"
         const val KEY_EMAIL = "email"
         const val KEY_PASSWORD = "password"
         const val SHOP = 1

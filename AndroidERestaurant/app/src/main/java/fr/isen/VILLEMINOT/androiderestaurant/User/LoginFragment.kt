@@ -34,6 +34,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.noAccountButton.setOnClickListener{
+            (context as? UserActivity)
             interactor?.showRegister()
         }
 
