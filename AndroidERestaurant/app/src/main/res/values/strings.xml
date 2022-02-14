@@ -6,6 +6,16 @@
     <string name="total">Total</string>
     <string name="itemAdded">Plat ajouté au panier</string>
     <string name="basket">Panier</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="quantity">Quantité : </string>
+    <string name="order">Passer la commande</string>
+    <string name="registerTitle">Création de votre compte</string>
+    <string name="loginTitle">Connection</string>
+    <string name="email">Email</string>
+    <string name="password">Mot de passe</string>
+    <string name="connect">Se connecter</string>
+    <string name="register">Créer votre compte</string>
+    <string name="noAccount">Je n\'ai pas encore de compte</string>
+    <string name="firstName">Prénom</string>
+    <string name="lastName">Nom</string>
+    <string name="invalidForms">Veuillez remplir tous les champs</string>
 </resources>

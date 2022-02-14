@@ -45,7 +45,7 @@ class Basket(val items: MutableList<BasketItem>): Serializable {
     }
 
     fun removeItem(basketItem: BasketItem){
-
+        items.remove(basketItem)
     }
 
     fun save(context: Context){
