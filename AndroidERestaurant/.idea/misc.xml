@@ -4,13 +4,20 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_less.xml" value="0.1905" />
+        <entry key="app/src/main/res/drawable/ic_cart.xml" value="0.2485" />
+        <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.256" />
         <entry key="app/src/main/res/drawable/ic_less.xml" value="0.1605" />
         <entry key="app/src/main/res/drawable/ic_more.xml" value="0.269" />
+        <entry key="app/src/main/res/drawable/rounded_background.xml" value="0.2485" />
+        <entry key="app/src/main/res/layout/activity_basket.xml" value="0.2798913043478261" />
         <entry key="app/src/main/res/layout/activity_category_actvity.xml" value="0.1828125" />
         <entry key="app/src/main/res/layout/activity_detail.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.19791666666666666" />
+        <entry key="app/src/main/res/layout/cell_basket.xml" value="0.2798913043478261" />
         <entry key="app/src/main/res/layout/cell_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_photo.xml" value="0.35625" />
+        <entry key="app/src/main/res/layout/menu_basket.xml" value="0.2667572463768116" />
+        <entry key="app/src/main/res/menu/menu.xml" value="0.35625" />
       </map>
     </option>
   </component>

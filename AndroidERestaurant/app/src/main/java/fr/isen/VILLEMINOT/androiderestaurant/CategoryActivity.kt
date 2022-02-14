@@ -41,7 +41,7 @@ enum class LunchType {
 }
 
 
-class CategoryActivity : AppCompatActivity() {
+class CategoryActivity : BaseActivity() {
     lateinit var binding: ActivityCategoryActvityBinding
     lateinit var currentCategory: LunchType
 

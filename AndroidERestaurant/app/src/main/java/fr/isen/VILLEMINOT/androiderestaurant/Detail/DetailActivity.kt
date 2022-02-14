@@ -3,6 +3,9 @@ package fr.isen.VILLEMINOT.androiderestaurant.Detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import com.google.android.material.snackbar.Snackbar
+import fr.isen.VILLEMINOT.androiderestaurant.BaseActivity
 import fr.isen.VILLEMINOT.androiderestaurant.CategoryActivity
 import fr.isen.VILLEMINOT.androiderestaurant.R
 import fr.isen.VILLEMINOT.androiderestaurant.basket.Basket
@@ -10,7 +13,7 @@ import fr.isen.VILLEMINOT.androiderestaurant.databinding.ActivityDetailBinding
 import fr.isen.VILLEMINOT.androiderestaurant.network.Meals
 import kotlin.math.max
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : BaseActivity() {
     private lateinit var binding: ActivityDetailBinding
     private var currentMeals: Meals? = null
     private var itemCount = 1F
@@ -63,8 +66,13 @@ class DetailActivity : AppCompatActivity() {
         }
         binding.buttonShop.setOnClickListener {
             currentMeals?.let { meal ->
-                val basket = Basket.getBasket()
+                this.cacheDir.absolutePath
+                val basket = Basket.getBasket(this)
                 basket.addItem(meal, itemCount.toInt())
+                basket.save(this)
+                Snackbar.make(binding.linearlayout, R.string.itemAdded, Snackbar.LENGTH_LONG).show()
+                invalidateOptionsMenu()
+                //Toast.makeText(this, R.string.itemAdded, Toast.LENGTH_LONG).show()
             }
         }
     }
